@@ -1,5 +1,6 @@
 import type { Character } from '../../types/character'
 import { FavoriteButton } from './FavoriteButton'
+import { CharacterImage } from './CharacterImage'
 
 interface CharacterCardProps {
     character: Character
@@ -14,12 +15,8 @@ export function CharacterCard({ character, onSelect }: CharacterCardProps) {
                 onClick={() => onSelect(character)}
                 className="flex w-full cursor-pointer flex-col gap-2.5 text-left"
             >
-                <img
-                    src={character.image}
-                    alt={character.name}
-                    loading="lazy"
-                    className="aspect-square w-full rounded object-cover"
-                />
+                <CharacterImage src={character.image} alt={character.name} lazy />
+
                 <span className="flex h-6 items-center truncate pr-8 text-sm font-bold text-black">
                     {character.name}
                 </span>

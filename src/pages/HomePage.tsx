@@ -11,7 +11,7 @@ import { Pagination } from '../components/ui/Pagination'
 
 export function HomePage() {
     const [page, setPage] = useState(1)
-    const { characters, info, loading, error } = useCharacters(page)
+    const { characters, info, loading, error, retry } = useCharacters(page)
     const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
 
     const handlePageChange = (newPage: number) => {
@@ -39,17 +39,27 @@ export function HomePage() {
                 />
             </div>
 
-            {error && (
-                <p role="alert" className="text-center text-red-600">
-                    {error}
-                </p>
+            {error ? (
+                <div
+                    role="alert"
+                    className="flex flex-col items-center gap-3 rounded-lg bg-background-2 p-6 text-center"
+                >
+                    <p className="text-danger">{error}</p>
+                    <button
+                        type="button"
+                        onClick={retry}
+                        className="cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white"
+                    >
+                        Reintentar
+                    </button>
+                </div>
+            ) : (
+                <CharacterGrid
+                    characters={characters}
+                    loading={loading}
+                    onSelect={setSelectedCharacter}
+                />
             )}
-
-            <CharacterGrid
-                characters={characters}
-                loading={loading}
-                onSelect={setSelectedCharacter}
-            />
 
             <Pagination page={page} totalPages={info?.pages ?? 0} onPageChange={handlePageChange} />
 

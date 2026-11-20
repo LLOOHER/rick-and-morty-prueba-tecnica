@@ -7,7 +7,8 @@ type Result =
     | { key: string; data: null; error: string }
 
 export function useCharacters(page = 1, name = '') {
-    const requestKey = `${page}-${name}`
+    const [attempt, setAttempt] = useState(0)
+    const requestKey = `${page}-${name}-${attempt}`
     const [result, setResult] = useState<Result | null>(null)
 
     useEffect(() => {
@@ -31,5 +32,6 @@ export function useCharacters(page = 1, name = '') {
         info: result?.data?.info ?? null,
         loading,
         error: loading ? null : (result?.error ?? null),
+        retry: () => setAttempt((value) => value + 1),
     }
 }

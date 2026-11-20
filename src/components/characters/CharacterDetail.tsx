@@ -1,5 +1,6 @@
 import type { Character } from '../../types/character'
 import { Chip } from '../ui/Chip'
+import { CharacterImage } from './CharacterImage'
 
 interface CharacterDetailProps {
     character: Character
@@ -8,11 +9,8 @@ interface CharacterDetailProps {
 export function CharacterDetail({ character }: CharacterDetailProps) {
     return (
         <div className="flex flex-col gap-2.5">
-            <img
-                src={character.image}
-                alt={character.name}
-                className="aspect-square w-full rounded object-cover"
-            />
+            <CharacterImage src={character.image} alt={character.name} />
+
             <div className="flex flex-col gap-2">
                 <h2 className="text-center text-sm font-bold text-black">{character.name}</h2>
                 <div className="flex flex-wrap justify-center gap-2">

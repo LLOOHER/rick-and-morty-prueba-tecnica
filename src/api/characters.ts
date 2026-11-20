@@ -15,7 +15,15 @@ export async function getCharacters(
     const params = new URLSearchParams({ page: String(page) })
     if (name.trim()) params.set('name', name.trim())
 
-    const response = await fetch(`${API_URL}/character?${params}`, { signal })
+    let response: Response
+    try {
+        response = await fetch(`${API_URL}/character?${params}`, { signal })
+    } catch (error) {
+        if (signal?.aborted) throw error
+        throw new Error('No se pudo conectar con la API. Intenta de nuevo en unos segundos.', {
+            cause: error,
+        })
+    }
 
     if (response.status === 404) return EMPTY_RESPONSE
     if (!response.ok) throw new Error(`Error ${response.status} al obtener personajes`)
