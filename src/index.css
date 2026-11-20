@@ -17,5 +17,8 @@
     --color-chip-origin: #f7f6ce;
     --color-chip-location: #fae9d2;
 
+    --color-danger: #c73a3a;
+    --color-danger-bg: #ffe1e1;
+
     --shadow-card: 0 1px 40px rgba(0, 0, 0, 0.05);
 }

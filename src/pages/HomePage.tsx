@@ -1,8 +1,13 @@
+import { useState } from 'react'
 import { CharacterGrid } from '../components/characters/CharacterGrid'
 import { useCharacters } from '../hooks/useCharacters'
+import { CharacterDetail } from '../components/characters/CharacterDetail'
+import { Modal } from '../components/ui/Modal'
+import type { Character } from '../types/character'
 
 export function HomePage() {
     const { characters, loading, error } = useCharacters()
+    const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
 
     return (
         <main className="mx-auto max-w-[1168px] px-4 py-10">
@@ -21,14 +26,17 @@ export function HomePage() {
                 </p>
             )}
 
-            {loading && characters.length === 0 && (
-                <p className="text-center text-sub-black-2">Cargando personajes…</p>
-            )}
-
             <CharacterGrid
                 characters={characters}
-                onSelect={(character) => console.log(character)}
+                loading={loading}
+                onSelect={setSelectedCharacter}
             />
+
+            {selectedCharacter && (
+                <Modal title={selectedCharacter.name} onClose={() => setSelectedCharacter(null)}>
+                    <CharacterDetail character={selectedCharacter} />
+                </Modal>
+            )}
         </main>
     )
 }

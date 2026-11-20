@@ -7,7 +7,7 @@ interface CharacterCardProps {
 
 export function CharacterCard({ character, onSelect }: CharacterCardProps) {
     return (
-        <article className="relative rounded-lg bg-white p-2.5 shadow-card">
+        <article className="relative rounded-md bg-white p-2.5 shadow-card">
             <button
                 type="button"
                 onClick={() => onSelect(character)}
