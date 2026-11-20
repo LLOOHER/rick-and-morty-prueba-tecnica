@@ -7,10 +7,17 @@ import { Modal } from '../components/ui/Modal'
 import type { Character } from '../types/character'
 import starWhiteIcon from '../assets/icons/star-white.svg'
 import { NavButton } from '../components/ui/NavButton'
+import { Pagination } from '../components/ui/Pagination'
 
 export function HomePage() {
-    const { characters, loading, error } = useCharacters()
+    const [page, setPage] = useState(1)
+    const { characters, info, loading, error } = useCharacters(page)
     const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 
     return (
         <main className="mx-auto max-w-[1168px] px-4 py-10">
@@ -43,6 +50,8 @@ export function HomePage() {
                 loading={loading}
                 onSelect={setSelectedCharacter}
             />
+
+            <Pagination page={page} totalPages={info?.pages ?? 0} onPageChange={handlePageChange} />
 
             {selectedCharacter && (
                 <Modal title={selectedCharacter.name} onClose={() => setSelectedCharacter(null)}>

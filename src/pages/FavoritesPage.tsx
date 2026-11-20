@@ -7,10 +7,12 @@ import { NavButton } from '../components/ui/NavButton'
 import { useFavorites } from '../hooks/useFavorites'
 import type { Character } from '../types/character'
 import homeIcon from '../assets/icons/home.svg'
-
+import { useClientPagination } from '../hooks/useClientPagination'
+import { Pagination } from '../components/ui/Pagination'
 
 export function FavoritesPage() {
     const { favorites } = useFavorites()
+    const { page, totalPages, pageItems, setPage } = useClientPagination(favorites)
     const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
 
     return (
@@ -34,7 +36,10 @@ export function FavoritesPage() {
                     Aún no tienes personajes favoritos.
                 </p>
             ) : (
-                <CharacterGrid characters={favorites} onSelect={setSelectedCharacter} />
+                <>
+                    <CharacterGrid characters={pageItems} onSelect={setSelectedCharacter} />
+                    <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+                </>
             )}
 
             {selectedCharacter && (

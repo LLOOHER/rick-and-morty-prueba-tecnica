@@ -1,8 +1,7 @@
 import type { Character } from '../../types/character'
 import { CharacterCard } from './CharacterCard'
 import { CharacterCardSkeleton } from './CharacterCardSkeleton'
-
-const SKELETON_COUNT = 20
+import { PAGE_SIZE } from '../../constants/pagination'
 
 interface CharacterGridProps {
     characters: Character[]
@@ -17,7 +16,7 @@ export function CharacterGrid({ characters, onSelect, loading = false }: Charact
             className="grid grid-cols-1 gap-6 rounded-lg bg-background-2 p-6 sm:grid-cols-2 lg:grid-cols-4"
         >
             {loading
-                ? Array.from({ length: SKELETON_COUNT }, (_, index) => (
+                ? Array.from({ length: PAGE_SIZE }, (_, index) => (
                       <CharacterCardSkeleton key={index} />
                   ))
                 : characters.map((character) => (

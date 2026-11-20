@@ -22,5 +22,9 @@
 
     --color-accent: #4339f2;
 
+    --color-page-border: #dfe3e8;
+    --color-page-active: #4200ff;
+    --color-page-disabled: #919eab;
+
     --shadow-card: 0 1px 40px rgba(0, 0, 0, 0.05);
 }
