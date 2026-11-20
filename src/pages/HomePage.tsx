@@ -8,14 +8,20 @@ import type { Character } from '../types/character'
 import starWhiteIcon from '../assets/icons/star-white.svg'
 import { NavButton } from '../components/ui/NavButton'
 import { Pagination } from '../components/ui/Pagination'
+import { useDebounce } from '../hooks/useDebounce'
+import { SearchInput } from '../components/ui/SearchInput'
 
 export function HomePage() {
-    const [page, setPage] = useState(1)
-    const { characters, info, loading, error, retry } = useCharacters(page)
+    const [search, setSearch] = useState('')
+    const debouncedSearch = useDebounce(search)
+    const [pageState, setPageState] = useState({ page: 1, query: '' })
+    const page = pageState.query === debouncedSearch ? pageState.page : 1
+
+    const { characters, info, loading, error, retry } = useCharacters(page, debouncedSearch)
     const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
 
     const handlePageChange = (newPage: number) => {
-        setPage(newPage)
+        setPageState({ page: newPage, query: debouncedSearch })
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
@@ -30,7 +36,8 @@ export function HomePage() {
                 </p>
             </header>
 
-            <div className="mb-4 flex items-center justify-end">
+            <div className="mb-4 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <SearchInput value={search} onChange={setSearch} />
                 <NavButton
                     to={ROUTES.favorites}
                     label="Mis favoritos"
@@ -53,6 +60,10 @@ export function HomePage() {
                         Reintentar
                     </button>
                 </div>
+            ) : !loading && characters.length === 0 ? (
+                <p className="rounded-lg bg-background-2 p-6 text-center text-sub-black-2">
+                    No se encontraron personajes con el nombre “{debouncedSearch}”.
+                </p>
             ) : (
                 <CharacterGrid
                     characters={characters}
