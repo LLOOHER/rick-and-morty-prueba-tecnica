@@ -1,4 +1,5 @@
 import type { Character } from '../../types/character'
+import { FavoriteButton } from './FavoriteButton'
 
 interface CharacterCardProps {
     character: Character
@@ -23,6 +24,7 @@ export function CharacterCard({ character, onSelect }: CharacterCardProps) {
                     {character.name}
                 </span>
             </button>
+            <FavoriteButton character={character} className="absolute right-2.5 bottom-2.5" />
         </article>
     )
 }
